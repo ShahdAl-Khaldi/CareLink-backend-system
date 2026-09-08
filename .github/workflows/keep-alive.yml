@@ -1,0 +1,20 @@
+name: Keep Render backend awake
+
+# خدمات Render المجانية بتنام بعد 15 دقيقة بدون طلبات، وأول طلب بعد النوم
+# بياخد وقت طويل (كذا ثانية لحد دقيقة) لحد ما يصحى - هاد الـ workflow بيبعت
+# طلب بسيط كل 10 دقايق عشان يخلي السيرفر صاحي طول الوقت، خصوصًا وقت عرض
+# المشروع على الدكتور
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping backend health endpoint
+        run: |
+          curl -sf --max-time 30 "https://carelink-backend-system.onrender.com/up" \
+            || curl -sf --max-time 30 "https://carelink-backend-system.onrender.com/api/faqs" \
+            || echo "Ping failed - backend may be cold-starting, this is expected occasionally"

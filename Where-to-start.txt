@@ -1,0 +1,14 @@
+[1]- git clone https://github.com/nabil-assi/CareLink-backend-system.git
+
+داخل مجلد المشروع 
+[2]- composer install
+
+انشاء ملفات .env + .env.example
+[3]- cp .env.example .env
+
+توليد مفتاح التشفير 
+[4]- php artisan key:generate
+
+
+[5]- php artisan migrate
+
